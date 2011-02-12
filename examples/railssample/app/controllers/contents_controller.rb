@@ -13,9 +13,8 @@ class ContentsController < ApplicationController
   # POST /contents
   # POST /contents.xml
   def update
-    @content = Content.find_or_create_by_name(params[:content].merge({:name => params[:id]}))
-
-    puts params[:content]
+    @content = Content.find_or_create_by_name(params[:id])
+    @content.attributes = params[:content]
 
     respond_to do |format|
       if @content.save

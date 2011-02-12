@@ -55,9 +55,21 @@
 	
 		if (!'contentResource' in defaults)
 			throw 'Please provide restroot in the options.';
-
+    
 		// iterate over matched elements
 		var contents = this;
+
+    // load contents //
+    contents.each(function(index) {
+      var content = $(contents[index]);
+      console.log("loading " + content.attr('id'));
+      var contentId = encodeURIComponent(window.location.pathname + '#' + content.attr('data-cms'));
+      content.html('loading...');
+      $.getJSON(defaults.contentResource + '/' + contentId + '.json', {}, function(data) {
+        content.html(data.content.value);
+      });
+    });
+
 		return this.after(function(index) {
 			return $('<div>edit</div>')
 				.attr('data-target', $(contents[index]).attr('id')) // err if no id
@@ -67,7 +79,7 @@
 					var contentId = encodeURIComponent(window.location.pathname + '#' + $(evnt.target).attr('data-cms'));
 					var targetId = $(evnt.target).attr('data-target');
 
-					$('<div><form id="jumpcms-edit"><textarea id="value" name="value" rows="10" cols="80" style="width: 98%" class="tinymce"></textarea></form></div>')
+					$('<div><form id="jumpcms-edit"><input type="hidden" name="_method" value="put"/><textarea id="content_value" name="content[value]" rows="10" cols="80" style="width: 98%" class="tinymce"></textarea></form></div>')
           .dialog({
 						modal:true,
 						title:$(evnt.target).attr('data-cms'),
@@ -77,8 +89,11 @@
 							cancel:function() { $(this).dialog('close'); },
 							save:function() { 
                 console.log('saving content');
-                $.post(defaults.contentResource + '/' + contentId, $("#jumpcms-edit").serialize(), function(data) {
-                  $(this).dialog('close'); 
+                var dialogBox = $(this);
+                $.post(defaults.contentResource + '/' + contentId + '.json', $("#jumpcms-edit").serialize(), function(data) {
+                  console.log('saved: ' + data.content.value);
+                  $('#'+targetId).html(data.content.value)
+                  $(dialogBox).dialog('close'); 
                 });
               }
 						},
