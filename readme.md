@@ -1,14 +1,19 @@
 DasPico Content Management System
 ---------------------------------
 
+This CMS is not a full featured CMS, its for web sites that need easy content editing added to 
+existing or predefined pages. The content sections are predefined on each page.
+
 This CMS is designed to be used with multiple back ends and provide a simple to integrate and use front end.
 
 It's built on jQuery, jQuery UI, and TinyMCE
 
 It expects the backed to provide JSON objects in a REST based style. 
 
+The back end endpoint and JSON object format can be overridden.
+
 Example Front End Integration
-============================
+=============================
 
 Integrate into the web page using data-cms attributes. This initial values can be either loaded by the server
 or added client side AJAX by DasPico.
@@ -40,21 +45,23 @@ or added client side AJAX by DasPico.
 
 
 Example Back End Interface
-=========================
+==========================
 
 Assumptions:
 
 * Security is handled in the back end interface.
 * The PUT method will create the content if it doesn't exist.
+* The content id is the page pathname#data-cms_value
 
+~~~
 	GET /contents/{pageid}.json
 
 	content {
 		value:<p>CMS content</p>
 	}
+~~~
 
-
-
+~~~
 	PUT /contents/{pageid}.json
 
 	<p>New CMS Content</p>
@@ -63,7 +70,7 @@ Assumptions:
 	content {
 		value:<p>New CMS Content</p>
 	}
-
+~~~
 
 License
 -------
