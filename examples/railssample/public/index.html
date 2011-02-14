@@ -7,28 +7,29 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="/javascripts/tiny_mce/jquery.tinymce.js"></script>
 
-		<script src="/javascripts/jquery.jumpcms.js" type="text/javascript"></script>
+		<script src="/javascripts/jquery.daspicocms.js" type="text/javascript"></script>
 
 		<script type="text/javascript">
 			$(function() {
-
-				$('div[data-cms]').jumpcms({
-					autoload:false,
-					contentResource:'contents'
+				$('div[data-cms]').daspicocms({
+					autoload:true,
+					showedits:true,
+					contentResource:'contents/{id}.json'
 				});
-
-
 			});		
 		</script>
 		<style>
-			.jumpcms-edit { background:#ededed; display:inline; padding:5px; }
+			.daspicocms-edit { background:#ededed; display:inline; padding:5px; }
 		</style>
 	</head>
 	
 	<body>
-		<h1>Example JumpCMS</h1>
+		<h1>Example DasPico CMS</h1>
 		<div id="mainid" data-cms="main">
-		Default content provided by the server.
+		loading...
+		</div>
+		<div id="subid" data-cms="sub">
+		loading...
 		</div>
 	</body>
 </html>
